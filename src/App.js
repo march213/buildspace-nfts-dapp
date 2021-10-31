@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import myEpicNft from './utils/MyEpicNFT.json'
 import './App.css'
 
-const CONTRACT_ADDRESS = '0xE1091FC8d490289202885568cBb8dC55895745fe'
+const CONTRACT_ADDRESS = '0xDD7DcB2b3dE652A7D42CcDDd7AceC80aF90902f0'
 const getRaribleLink = (contractAddress, tokenId) => `https://rinkeby.rarible.com/token/${contractAddress}:${tokenId}`
 const TOTAL_MINT_COUNT = 50
 
