@@ -3,7 +3,8 @@ import { ethers } from 'ethers'
 import myEpicNft from './utils/MyEpicNFT.json'
 import './App.css'
 
-const OPENSEA_LINK = ''
+const CONTRACT_ADDRESS = '0xE1091FC8d490289202885568cBb8dC55895745fe'
+const getRaribleLink = (contractAddress, tokenId) => `https://rinkeby.rarible.com/token/${contractAddress}:${tokenId}`
 const TOTAL_MINT_COUNT = 50
 
 const App = () => {
@@ -55,7 +56,6 @@ const App = () => {
   }
 
   const askContractToMintNft = async () => {
-    const CONTRACT_ADDRESS = '0xE1091FC8d490289202885568cBb8dC55895745fe'
     try {
       const { ethereum } = window
 
@@ -63,6 +63,16 @@ const App = () => {
         const provider = new ethers.providers.Web3Provider(ethereum)
         const signer = provider.getSigner()
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer)
+
+        connectedContract.on('NewEpicNFTMinted', (from, tokenId) => {
+          console.log(from, tokenId.toNumber())
+          alert(
+            `Hey there!
+            We've minted your NFT and sent it to your wallet.
+            It may be blank right now.
+            Here's the link: ${getRaribleLink(CONTRACT_ADDRESS, tokenId.toNumber())}`,
+          )
+        })
 
         console.log('Going to pop wallet now to pay gas...')
         let nftTxn = await connectedContract.makeAnEpicNFT()
